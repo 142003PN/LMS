@@ -70,7 +70,7 @@
                 </a>
             </li>
             <li>
-                <a href="departments.html">
+                <a href="{{ route('department.index') }}">
                     <i class="fas fa-building"></i>
                     <span>Departments</span>
                 </a>

@@ -4,15 +4,23 @@
         <div class="catalog-page-header mb-4">
             <div class="catalog-heading">
                 <i class="fas fa-building fa-lg"></i>
-                <h3>Mathematics Department</h3>
+                <h3>{{ $department->name }} Department</h3>
             </div>
             <div class="catalog-page-actions">
-                <a href="departments.html" type="button" class="btn" aria-label="Back to departments" title="Back to departments">
+                <a href="{{ route('department.edit', $department) }}" class="btn btn-primary"><i class="fas fa-edit"></i><span>Edit</span></a>
+                <form action="{{ route('department.destroy', $department) }}" method="POST" onsubmit="return confirm('Delete this department? This cannot be undone.');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i><span>Delete</span></button>
+                </form>
+                <a href="{{ route('department.index') }}" type="button" class="btn" aria-label="Back to departments" title="Back to departments">
                     <i class="fas fa-arrow-left"></i><span class="back-label">Back</span>
                 </a>
             </div>
         </div>
 
+        @include('departments.messages')
+        <p class="text-muted">Learner, staff, subject and performance statistics are not available yet.</p>
         <div class="detail-summary row g-3 g-lg-4 mb-4">
             <div class="col-12 col-md-4">
                 <div class="detail-stat-card card shadow-sm border-0 h-100">
@@ -22,7 +30,7 @@
                         </div>
                         <div>
                             <p>Total learners</p>
-                            <h4>248</h4>
+                            <h4>&mdash;</h4>
                         </div>
                     </div>
                 </div>
@@ -35,7 +43,7 @@
                         </div>
                         <div>
                             <p>Teaching staff</p>
-                            <h4>12</h4>
+                            <h4>&mdash;</h4>
                         </div>
                     </div>
                 </div>
@@ -48,7 +56,7 @@
                         </div>
                         <div>
                             <p>Subjects</p>
-                            <h4>06</h4>
+                            <h4>&mdash;</h4>
                         </div>
                     </div>
                 </div>
@@ -62,28 +70,28 @@
                         <h4>Department profile</h4>
                     </div>
                     <div class="department-profile-box">
-                        <div class="department-badge">M</div>
+                        <div class="department-badge">{{ mb_substr($department->name, 0, 1) }}</div>
                         <div>
-                            <h5>Mathematics</h5>
+                            <h5>{{ $department->name }}</h5>
                             <span>Academic department</span>
                         </div>
                     </div>
                     <ul class="detail-info-list">
                         <li>
                             <span class="label">Head of Department</span>
-                            <strong>Chanda Tembo</strong>
+                            <strong>{{ $department->hod ? $department->hod->first_name.' '.$department->hod->last_name : 'Unassigned' }}</strong>
                         </li>
                         <li>
                             <span class="label">Email</span>
-                            <strong>chanda.tembo@school.edu</strong>
+                            <strong>{{ $department->hod?->email ?? 'Not available' }}</strong>
                         </li>
                         <li>
-                            <span class="label">Established</span>
-                            <strong>2018</strong>
+                            <span class="label">Created</span>
+                            <strong>{{ $department->created_at->format('d M Y') }}</strong>
                         </li>
                         <li>
                             <span class="label">Classes</span>
-                            <strong>08 classes</strong>
+                            <strong>Not available</strong>
                         </li>
                     </ul>
                 </div>
@@ -98,28 +106,28 @@
                         <div class="performance-item">
                             <div class="performance-meta">
                                 <span>Exam pass rate</span>
-                                <strong>88%</strong>
+                                <strong>Not available</strong>
                             </div>
                             <div class="progress-track">
-                                <span style="width: 88%;"></span>
+                                <span style="width: 0%;"></span>
                             </div>
                         </div>
                         <div class="performance-item">
                             <div class="performance-meta">
                                 <span>Attendance</span>
-                                <strong>94%</strong>
+                                <strong>Not available</strong>
                             </div>
                             <div class="progress-track">
-                                <span style="width: 94%;"></span>
+                                <span style="width: 0%;"></span>
                             </div>
                         </div>
                         <div class="performance-item">
                             <div class="performance-meta">
                                 <span>Homework completion</span>
-                                <strong>82%</strong>
+                                <strong>Not available</strong>
                             </div>
                             <div class="progress-track">
-                                <span style="width: 82%;"></span>
+                                <span style="width: 0%;"></span>
                             </div>
                         </div>
                     </div>
@@ -138,23 +146,7 @@
                                     <th>Class</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Chanda Tembo</td>
-                                    <td>Algebra</td>
-                                    <td>Grade 10</td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Smith</td>
-                                    <td>Geometry</td>
-                                    <td>Grade 11</td>
-                                </tr>
-                                <tr>
-                                    <td>Peter Ndlovu</td>
-                                    <td>Statistics</td>
-                                    <td>Grade 12</td>
-                                </tr>
-                            </tbody>
+                            <tbody><tr><td colspan="3">Faculty assignments are not available yet.</td></tr></tbody>
                         </table>
                     </div>
                 </div>

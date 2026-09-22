@@ -3,8 +3,8 @@
     <main id="main-content" class="p-4">
         <div class="catalog-page-header mb4">
             <div class="catalog-heading">
-                <i class="fas fa-plus fa-lg"></i>
-                <h3>Add Department</h3>
+                <i class="fas fa-edit fa-lg"></i>
+                <h3>Edit Department</h3>
             </div>
             <div class="catalog-page-actions">
                 <a href="{{ route('department.index') }}" type="button" class="btn" aria-label="Back to departments" title="Back to departments">
@@ -15,7 +15,8 @@
         @include('departments.messages')
         <div class="card shadow-sm border-0 h-100 mt-4">
             <div class="card-board">
-                <form action="{{ route('department.store') }}" method="POST">
+                <form action="{{ route('department.update', $department) }}" method="POST">
+                    @method('PUT')
                     @include('departments.form')
                 </form>
             </div>

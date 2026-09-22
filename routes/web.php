@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DepartmentController;
 
 Route::middleware('guest')->group(function () {
     Route::view('/', 'login')->name('login');
@@ -31,3 +32,5 @@ Route::middleware('auth')->group(function () {
         })->name($name);
     }
 });
+
+Route::resource('department', DepartmentController::class)->middleware('auth');
