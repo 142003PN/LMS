@@ -18,6 +18,18 @@ class DepartmentTest extends TestCase
         $this->actingAs(User::factory()->create(['role' => 'head_teacher']));
     }
 
+    public function test_pages_include_sweetalert_support_and_confirmation_hooks(): void
+    {
+        $department = Department::create(['name' => 'Science']);
+
+        $this->withSession(['success' => 'Department created.'])
+            ->get(route('department.show', $department))
+            ->assertOk()
+            ->assertSee('sweetalert2', false)
+            ->assertSee('window.flashMessages', false)
+            ->assertSee('data-confirm', false);
+    }
+
     public function test_head_teacher_can_complete_the_web_crud_flow(): void
     {
         $head = User::factory()->create(['role' => 'hod']);

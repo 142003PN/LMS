@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!--bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!--sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--chart.js-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <!--custom css-->
@@ -50,7 +52,7 @@
                         <span class="theme-status">Off</span>
                     </button>
                     <div class="user-menu-divider"></div>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" data-confirm='{"title":"Log out","message":"Are you sure you want to log out?","icon":"question","confirmButtonText":"Yes, log out","cancelButtonText":"Stay logged in"}'>
                     @csrf
                     <button id="logout-btn" class="logout-btn" type="submit">
                         <i class="fas fa-sign-out-alt"></i> Log out
@@ -89,9 +91,9 @@
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('staff.index') }}">
                     <i class="fas fa-users"></i>
-                    <span>Learners</span>
+                    <span>Staff</span>
                 </a>
             </li>
             <li>
@@ -109,6 +111,66 @@
         </ul>
     </aside>
     @yield('content')
+
+    @php
+        $flashMessages = [
+            'success' => session('success'),
+            'error' => session('error'),
+            'warning' => session('warning'),
+            'info' => session('info'),
+        ];
+    @endphp
+
+    <script>
+        window.flashMessages = @json($flashMessages);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            Object.entries(window.flashMessages).forEach(([type, message]) => {
+                if (!message) return;
+
+                Swal.fire({
+                    icon: type === 'error' ? 'error' : type === 'warning' ? 'warning' : type === 'info' ? 'info' : 'success',
+                    title: type.charAt(0).toUpperCase() + type.slice(1),
+                    text: message,
+                    timer: type === 'success' ? 2200 : 3200,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            });
+
+            document.querySelectorAll('[data-confirm]').forEach((element) => {
+                element.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const config = JSON.parse(element.dataset.confirm || '{}');
+                    const message = config.message || 'Are you sure?';
+                    const confirmButtonText = config.confirmButtonText || 'Yes, continue';
+                    const cancelButtonText = config.cancelButtonText || 'Cancel';
+
+                    Swal.fire({
+                        title: config.title || 'Are you sure?',
+                        text: message,
+                        icon: config.icon || 'warning',
+                        showCancelButton: true,
+                        confirmButtonText,
+                        cancelButtonText,
+                        reverseButtons: true,
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'btn btn-danger',
+                            cancelButton: 'btn btn-secondary ms-2'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            element.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
     </body>
 </html>
 

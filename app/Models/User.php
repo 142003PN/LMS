@@ -19,10 +19,13 @@ class User extends Authenticatable
 
     public const HOD = 'hod';
 
+    public const DEPUTY_HEAD_TEACHER = 'deputy_head_teacher';
+
     public const TEACHER = 'teacher';
 
     public const ROLES = [
         self::HEAD_TEACHER,
+        self::DEPUTY_HEAD_TEACHER,
         self::LEARNER,
         self::TEACHER,
         self::HOD,
@@ -58,6 +61,16 @@ class User extends Authenticatable
     public function isHeadTeacher(): bool
     {
         return $this->role === self::HEAD_TEACHER;
+    }
+
+    public function isDeputyHeadTeacher(): bool
+    {
+        return $this->role === self::DEPUTY_HEAD_TEACHER;
+    }
+
+    public function canManageStaff(): bool
+    {
+        return in_array($this->role, [self::HEAD_TEACHER, self::DEPUTY_HEAD_TEACHER], true);
     }
 
     /**

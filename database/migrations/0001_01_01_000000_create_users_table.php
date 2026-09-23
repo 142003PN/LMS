@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('nrc')->unique();
             $table->string('phone_number')->unique();
             $table->enum('role', ['head_teacher', 'deputy_head_teacher', 'teacher', 
             'learner', 'accountant', 'stores_officer', 'hod'])->default('learner')->nullable(false);

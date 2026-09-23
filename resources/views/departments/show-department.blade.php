@@ -8,7 +8,7 @@
             </div>
             <div class="catalog-page-actions">
                 <a href="{{ route('department.edit', $department) }}" class="btn btn-primary"><i class="fas fa-edit"></i><span>Edit</span></a>
-                <form action="{{ route('department.destroy', $department) }}" method="POST" onsubmit="return confirm('Delete this department? This cannot be undone.');">
+                <form action="{{ route('department.destroy', $department) }}" method="POST" data-confirm='{"title":"Delete department","message":"Delete this department? This cannot be undone.","icon":"warning","confirmButtonText":"Yes, delete it","cancelButtonText":"Cancel"}'>
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i><span>Delete</span></button>

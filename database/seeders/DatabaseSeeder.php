@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Xieng',
             'last_name' => 'Xhung Fu',
             'email' => 'test@example.com',
-            'nrc' => '123456/67/1',
             'phone_number' => '0977777777',
             'role' => 'head_teacher',
             'password' => bcrypt('Pass1234'),

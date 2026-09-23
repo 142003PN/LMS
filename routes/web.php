@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\HeadTeacherController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StaffController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DepartmentController;
 
 Route::middleware('guest')->group(function () {
     Route::view('/', 'login')->name('login');
@@ -34,3 +35,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('department', DepartmentController::class)->middleware('auth');
+Route::resource('staff', StaffController::class)->middleware('auth');
