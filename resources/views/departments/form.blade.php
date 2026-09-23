@@ -1,4 +1,5 @@
 @csrf
+<h4 class="detail-card-header">Department details</h4>
 <div class="form-group">
     <label for="name">Department Name</label>
     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $department->name) }}" maxlength="20" required>

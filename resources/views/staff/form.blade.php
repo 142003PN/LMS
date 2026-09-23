@@ -1,4 +1,5 @@
 @csrf
+<h4 class="detail-card-header">Staff details</h4>
 <div class="form-group">
     <label for="first_name">First Name</label>
     <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name', $staff->user?->first_name) }}" maxlength="255" required>

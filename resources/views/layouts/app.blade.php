@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Learning management system</title>
     <!--font awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!--bootstrap -->
@@ -65,13 +65,13 @@
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
     <aside id="sidebar">
         <ul>
-            <li class="active">
-                <a href="#">
+            <li class="{{ request()->routeIs("*.dashboard", "dashboard", "head.index") ? "active" : "" }}">
+                <a href="{{ route('dashboard') }}">
                     <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li>
+            <li class="{{ request()->routeIs('department.*') ? 'active' : '' }}">
                 <a href="{{ route('department.index') }}">
                     <i class="fas fa-building"></i>
                     <span>Departments</span>
@@ -90,7 +90,7 @@
                     </div>
                 </ul>
             </li>
-            <li>
+            <li class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">
                 <a href="{{ route('staff.index') }}">
                     <i class="fas fa-users"></i>
                     <span>Staff</span>

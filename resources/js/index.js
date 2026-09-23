@@ -34,11 +34,36 @@ const userMenuDropdown = document.querySelector("#user-menu-dropdown");
 const darkModeToggle = document.querySelector("#dark-mode-toggle");
 const logoutButton = document.querySelector("#logout-btn");
 
+const dashboardCharts = [];
+
+function updateChartTheme() {
+    const style = getComputedStyle(document.body);
+    const color = name => style.getPropertyValue(name).trim();
+    dashboardCharts.forEach(chart => {
+        chart.options.color = color("---muted-color");
+        const dataset = chart.data.datasets[0];
+        if (chart.config.type === "line") {
+            dataset.borderColor = dataset.pointBackgroundColor = color("--accent");
+            dataset.backgroundColor = color("--chart-fill");
+            dataset.pointBorderColor = color("---surface-color");
+            Object.values(chart.options.scales).forEach(scale => {
+                scale.ticks.color = color("---muted-color");
+                scale.grid.color = color("---line-color");
+            });
+        } else {
+            dataset.borderColor = color("---surface-color");
+            chart.options.plugins.legend.labels.color = color("---muted-color");
+        }
+        chart.update("none");
+    });
+}
+
 function setDarkMode(isDark) {
     document.body.classList.toggle("dark-mode", isDark);
     darkModeToggle.querySelector(".theme-status").textContent = isDark ? "On" : "Off";
     darkModeToggle.querySelector("i").className = isDark ? "fas fa-sun" : "fas fa-moon";
-    localStorage.setItem("edu-dark-mode", isDark ? "enabled" : "disabled");
+    try { localStorage.setItem("edu-dark-mode", isDark ? "enabled" : "disabled"); } catch {}
+    updateChartTheme();
 }
 
 userMenuToggle.addEventListener("click", () => {
@@ -59,14 +84,14 @@ document.addEventListener("click", (event) => {
     }
 });
 
-setDarkMode(localStorage.getItem("edu-dark-mode") === "enabled");
+try { setDarkMode(localStorage.getItem("edu-dark-mode") === "enabled"); } catch { setDarkMode(false); }
 
 const chartFont = getComputedStyle(document.body).fontFamily;
 const chartGridColor = "rgba(224, 224, 224, 0.75)";
 
 const enrollmentChart = document.querySelector("#enrollment-chart");
 if (enrollmentChart) {
-    new Chart(enrollmentChart, {
+    dashboardCharts.push(new Chart(enrollmentChart, {
         type: "line",
         data: {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -102,18 +127,18 @@ if (enrollmentChart) {
                 }
             }
         }
-    });
+    }));
 }
 
 const departmentChart = document.querySelector("#department-chart");
 if (departmentChart) {
-    new Chart(departmentChart, {
+    dashboardCharts.push(new Chart(departmentChart, {
         type: "doughnut",
         data: {
             labels: ["Science", "Arts", "Business", "Technology"],
             datasets: [{
                 data: [28, 22, 18, 32],
-                backgroundColor: ["#212EA0", "#198754", "#5b6ee1", "#72b798"],
+                backgroundColor: ["#587bda", "#369b89", "#987dc5", "#d3a04b"],
                 borderColor: "#fff",
                 borderWidth: 4,
                 hoverOffset: 6
@@ -129,5 +154,10 @@ if (departmentChart) {
                 }
             }
         }
-    });
+    }));
 }
+
+updateChartTheme();
+
+// Inline navigation handlers must be available outside this Vite module.
+window.toggleSubmenu = toggleSubmenu;
