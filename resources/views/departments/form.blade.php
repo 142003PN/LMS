@@ -1,5 +1,6 @@
 @csrf
-<h4 class="detail-card-header">Department details</h4>
+<h4 class="editor-form-title">Department details</h4>
+<div class="form-grid">
 <div class="form-group">
     <label for="name">Department Name</label>
     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $department->name) }}" maxlength="20" required>
@@ -13,5 +14,8 @@
         @endforeach
     </select>
 </div>
-<button type="submit" class="btn btn-primary mt-3">{{ $department->exists ? 'Save changes' : 'Add Department' }}</button>
-
+</div>
+<div class="form-actions">
+    <button type="submit" class="btn btn-primary">{{ $department->exists ? 'Save changes' : 'Add Department' }}</button>
+    <a href="{{ route('department.index') }}" class="btn btn-secondary">Cancel</a>
+</div>

@@ -899,3 +899,47 @@ a { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Shared create/edit forms: one simple surface and a responsive field grid. */
+.editor-card {
+    max-width: 960px;
+    padding: clamp(1rem, 3vw, 2rem);
+}
+.editor-card .card-board { overflow: visible; }
+.card-board .editor-form {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+.editor-form-title {
+    margin: 0 0 1.5rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(---text-color);
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem 1.5rem;
+}
+.card-board .editor-form .form-group { min-width: 0; margin: 0; }
+.card-board .editor-form .form-control { width: 100%; min-width: 0; }
+.editor-form .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(---line-color);
+}
+.editor-form .form-actions .btn { min-height: 44px; }
+@media (min-width: 992px) {
+    .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 575.98px) {
+    .editor-form .form-actions { flex-direction: column; }
+    .editor-form .form-actions .btn { width: 100%; }
+}
